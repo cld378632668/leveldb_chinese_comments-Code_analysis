@@ -17,8 +17,8 @@ set(SOURCE_FILES
         db/db_bench.cc
         db/db_impl.cc
         db/db_impl.h
-        db/db_iter.cc
-        db/db_iter.h
+        db/db_iter.cc 1
+        db/db_iter.h  1
         db/db_test.cc
         db/dbformat.cc
         db/dbformat.h
