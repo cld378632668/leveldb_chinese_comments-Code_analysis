@@ -1071,15 +1071,16 @@ Iterator* DBImpl::NewInternalIterator(const ReadOptions& options,
   mutex_.Lock();
   *latest_snapshot = versions_->LastSequence();
 
+  //此处跟DBIter有关
   // Collect together all needed child iterators
   std::vector<Iterator*> list;
-  list.push_back(mem_->NewIterator());
+  list.push_back(mem_->NewIterator()); //加入memtbale的迭代器
   mem_->Ref();
   if (imm_ != NULL) {
-    list.push_back(imm_->NewIterator());
+    list.push_back(imm_->NewIterator());//加入immemtbale的迭代器
     imm_->Ref();
   }
-  versions_->current()->AddIterators(options, &list);
+  versions_->current()->AddIterators(options, &list);//可以简单理解为加入所有sst文件的迭代器
   Iterator* internal_iter =
       NewMergingIterator(&internal_comparator_, &list[0], list.size());
   versions_->current()->Ref();
@@ -1192,126 +1193,271 @@ Status DBImpl::Delete(const WriteOptions& options, const Slice& key) {
 }
 
 Status DBImpl::Write(const WriteOptions& options, WriteBatch* my_batch) {
-  Writer w(&mutex_);
-  w.batch = my_batch;
-  w.sync = options.sync;
-  w.done = false;
+	/*struct DBImpl::Writer {
+	*  WriteBatch* batch;
+	*  bool sync;
+	*  bool done;
+	* port::CondVar cv;
+	*};
+	*Writer封装WriteBatch，主要是多了信号量cv用于多线程的同步，以及该batch是否完成的标志done
+	*/
+	Writer w(&mutex_);
+	w.batch = my_batch;
+	w.sync = options.sync;
+	w.done = false;
 
-  MutexLock l(&mutex_);
-  writers_.push_back(&w);
-  while (!w.done && &w != writers_.front()) {
-    w.cv.Wait();
-  }
-  if (w.done) {
-    return w.status;
-  }
+	//加锁,因为w要插入全局队列writers_中
+	MutexLock l(&mutex_);
+	writers_.push_back(&w);
+	//只有当w是位于队列头部且w并没有完成时才不用等待
+	while (!w.done && &w != writers_.front()) {
+		w.cv.Wait();
+	}
+	//可能该w中的batch被其他线程通过下面讲到的合并操作一起完成了
+	if (w.done) {
+		return w.status;
+	}
 
-  // May temporarily unlock and wait.
-  Status status = MakeRoomForWrite(my_batch == NULL);
-  uint64_t last_sequence = versions_->LastSequence();
-  Writer* last_writer = &w;
-  if (status.ok() && my_batch != NULL) {  // NULL batch is for compactions
-    WriteBatch* updates = BuildBatchGroup(&last_writer);
-    WriteBatchInternal::SetSequence(updates, last_sequence + 1);
-    last_sequence += WriteBatchInternal::Count(updates);
+	// May temporarily unlock and wait.
+	Status status = MakeRoomForWrite(my_batch == NULL);
+	uint64_t last_sequence = versions_->LastSequence();
+	Writer* last_writer = &w;
+	if (status.ok() && my_batch != NULL) {
+		//合并队列中的各个batch到一个新batch中
+		WriteBatch* updates = BuildBatchGroup(&last_writer);
+		//为合并后的新batch中的第一个操作赋上全局序列号
+		WriteBatchInternal::SetSequence(updates, last_sequence + 1);
+		//并计算新的全局序列号
+		last_sequence += WriteBatchInternal::Count(updates);
 
-    // Add to log and apply to memtable.  We can release the lock
-    // during this phase since &w is currently responsible for logging
-    // and protects against concurrent loggers and concurrent writes
-    // into mem_.
-    {
-      mutex_.Unlock();
-      status = log_->AddRecord(WriteBatchInternal::Contents(updates));
-      bool sync_error = false;
-      if (status.ok() && options.sync) {
-        status = logfile_->Sync();
-        if (!status.ok()) {
-          sync_error = true;
-        }
-      }
-      if (status.ok()) {
-        status = WriteBatchInternal::InsertInto(updates, mem_);
-      }
-      mutex_.Lock();
-      if (sync_error) {
-        // The state of the log file is indeterminate: the log record we
-        // just added may or may not show up when the DB is re-opened.
-        // So we force the DB into a mode where all future writes fail.
-        RecordBackgroundError(status);
-      }
-    }
-    if (updates == tmp_batch_) tmp_batch_->Clear();
+		{
+			//往磁盘写日志文件开销很大，此时可以释放锁来提高并发，此时其他线程可以将
+			//新的writer插入到队列writers_中
+			mutex_.Unlock();
+			//将batch中的每条操作写入日志文件log_中
+			status = log_->AddRecord(WriteBatchInternal::Contents(updates));
+			bool sync_error = false;
+			if (status.ok() && options.sync) {
+				//是否要求立马刷盘将log写到磁盘，因为我们知道文件系统还有自己的缓存
+				status = logfile_->Sync();
+				if (!status.ok()) {
+					sync_error = true;
+				}
+			}
+			if (status.ok()) {
+				//将batch中每条操作插入到memtable中
+				status = WriteBatchInternal::InsertInto(updates, mem_);
+			}
+			//重新加锁
+			mutex_.Lock();
+		}
+		//因为updates已经写入了log和memtable，可以清空了
+		if (updates == tmp_batch_) tmp_batch_->Clear();
+		//重新设置新的全局序列号
+		versions_->SetLastSequence(last_sequence);
+	}
 
-    versions_->SetLastSequence(last_sequence);
-  }
+	while (true) {
+		//因为我们的updates可能合并了writers_队列中的很多,当前线程完成了其他线程的
+		//writer，只需唤醒这些已完成writer的线程
+		Writer* ready = writers_.front();
+		//从队列头部取出已完成的writer
+		writers_.pop_front();
+		if (ready != &w) {
+			//如果取出的writer不是当前线程的自己的，则唤醒writer所属的线程，唤醒的线程会执
+			//行 if (w.done) {
+			// return w.status;
+			//}逻辑
+			ready->status = status;
+			ready->done = true;
+			ready->cv.Signal();
+		}
+		//ready == last_writer说明这已经是合并的batch中最后一个已完成的writer了
+		if (ready == last_writer) break;
+	}
 
-  while (true) {
-    Writer* ready = writers_.front();
-    writers_.pop_front();
-    if (ready != &w) {
-      ready->status = status;
-      ready->done = true;
-      ready->cv.Signal();
-    }
-    if (ready == last_writer) break;
-  }
+	// Notify new head of write queue
+	if (!writers_.empty()) {
+		//队列不空，则唤醒队列头部writer所属的线程，参见上面 while (!w.done && &w != writers_.front())
+		writers_.front()->cv.Signal();
+	}
 
-  // Notify new head of write queue
-  if (!writers_.empty()) {
-    writers_.front()->cv.Signal();
-  }
-
-  return status;
+	return status;
 }
+
+//Status DBImpl::Write(const WriteOptions& options, WriteBatch* my_batch) {
+//
+//  Writer w(&mutex_);
+//  w.batch = my_batch;
+//  w.sync = options.sync;
+//  w.done = false;
+//
+//  MutexLock l(&mutex_);
+//  writers_.push_back(&w);
+//  while (!w.done && &w != writers_.front()) {
+//    w.cv.Wait();
+//  }
+//  if (w.done) {
+//    return w.status;
+//  }
+//
+//  // May temporarily unlock and wait.
+//  Status status = MakeRoomForWrite(my_batch == NULL);
+//  uint64_t last_sequence = versions_->LastSequence();
+//  Writer* last_writer = &w;
+//  if (status.ok() && my_batch != NULL) {  // NULL batch is for compactions
+//    WriteBatch* updates = BuildBatchGroup(&last_writer);
+//    WriteBatchInternal::SetSequence(updates, last_sequence + 1);
+//    last_sequence += WriteBatchInternal::Count(updates);
+//
+//    // Add to log and apply to memtable.  We can release the lock
+//    // during this phase since &w is currently responsible for logging
+//    // and protects against concurrent loggers and concurrent writes
+//    // into mem_.
+//    {
+//      mutex_.Unlock();
+//      status = log_->AddRecord(WriteBatchInternal::Contents(updates));
+//      bool sync_error = false;
+//      if (status.ok() && options.sync) {
+//        status = logfile_->Sync();
+//        if (!status.ok()) {
+//          sync_error = true;
+//        }
+//      }
+//      if (status.ok()) {
+//        status = WriteBatchInternal::InsertInto(updates, mem_);
+//      }
+//      mutex_.Lock();
+//      if (sync_error) {
+//        // The state of the log file is indeterminate: the log record we
+//        // just added may or may not show up when the DB is re-opened.
+//        // So we force the DB into a mode where all future writes fail.
+//        RecordBackgroundError(status);
+//      }
+//    }
+//    if (updates == tmp_batch_) tmp_batch_->Clear();
+//
+//    versions_->SetLastSequence(last_sequence);
+//  }
+//
+//  while (true) {
+//    Writer* ready = writers_.front();
+//    writers_.pop_front();
+//    if (ready != &w) {
+//      ready->status = status;
+//      ready->done = true;
+//      ready->cv.Signal();
+//    }
+//    if (ready == last_writer) break;
+//  }
+//
+//  // Notify new head of write queue
+//  if (!writers_.empty()) {
+//    writers_.front()->cv.Signal();
+//  }
+//
+//  return status;
+//}
 
 // REQUIRES: Writer list must be non-empty
 // REQUIRES: First writer must have a non-NULL batch
 WriteBatch* DBImpl::BuildBatchGroup(Writer** last_writer) {
-  assert(!writers_.empty());
-  Writer* first = writers_.front();
-  WriteBatch* result = first->batch;
-  assert(result != NULL);
+	assert(!writers_.empty());
+	Writer* first = writers_.front();
+	WriteBatch* result = first->batch;
+	assert(result != NULL);
 
-  size_t size = WriteBatchInternal::ByteSize(first->batch);
+	size_t size = WriteBatchInternal::ByteSize(first->batch);
 
-  // Allow the group to grow up to a maximum size, but if the
-  // original write is small, limit the growth so we do not slow
-  // down the small write too much.
-  size_t max_size = 1 << 20;
-  if (size <= (128<<10)) {
-    max_size = size + (128<<10);
-  }
+	// 设置合并后产生的batch的最大容量
+	size_t max_size = 1 << 20;
+	if (size <= (128 << 10)) {
+		//如果第一个待合并的batch的size很小，则相应减小合并后batch的最大容量
+		max_size = size + (128 << 10);
+	}
+	//我们需要记录writers_队列中最后一个被合并的writer，因为write函数中唤醒线程需要用
+	//到，防止小的batch需要等待过久用于合并
+	*last_writer = first;
+	std::deque<Writer*>::iterator iter = writers_.begin();
+	++iter;  // Advance past "first"
+	for (; iter != writers_.end(); ++iter) {
+		Writer* w = *iter;
+		if (w->sync && !first->sync) {
+			//能合并到一起的batch大家的sync属性必须相同
+			break;
+		}
 
-  *last_writer = first;
-  std::deque<Writer*>::iterator iter = writers_.begin();
-  ++iter;  // Advance past "first"
-  for (; iter != writers_.end(); ++iter) {
-    Writer* w = *iter;
-    if (w->sync && !first->sync) {
-      // Do not include a sync write into a batch handled by a non-sync write.
-      break;
-    }
+		if (w->batch != NULL) {
+			size += WriteBatchInternal::ByteSize(w->batch);
+			if (size > max_size) {
+				// Do not make batch too big
+				break;
+			}
 
-    if (w->batch != NULL) {
-      size += WriteBatchInternal::ByteSize(w->batch);
-      if (size > max_size) {
-        // Do not make batch too big
-        break;
-      }
-
-      // Append to *result
-      if (result == first->batch) {
-        // Switch to temporary batch instead of disturbing caller's batch
-        result = tmp_batch_;
-        assert(WriteBatchInternal::Count(result) == 0);
-        WriteBatchInternal::Append(result, first->batch);
-      }
-      WriteBatchInternal::Append(result, w->batch);
-    }
-    *last_writer = w;
-  }
-  return result;
+			// Append to *result
+			if (result == first->batch) {
+				// 用db数据成员tmp_batch_存放合并后的结果，相当于把各个待合并的writer中
+				//的数据全都拷贝进了tmp_batch_
+				result = tmp_batch_;
+				assert(WriteBatchInternal::Count(result) == 0);
+				WriteBatchInternal::Append(result, first->batch);
+			}
+			WriteBatchInternal::Append(result, w->batch);
+		}
+		*last_writer = w;//记录最后一个合并的writer
+	}
+	return result;
 }
+
+
+// REQUIRES: Writer list must be non-empty
+// REQUIRES: First writer must have a non-NULL batch
+//WriteBatch* DBImpl::BuildBatchGroup(Writer** last_writer) {
+//  assert(!writers_.empty());
+//  Writer* first = writers_.front();
+//  WriteBatch* result = first->batch;
+//  assert(result != NULL);
+//
+//  size_t size = WriteBatchInternal::ByteSize(first->batch);
+//
+//  // Allow the group to grow up to a maximum size, but if the
+//  // original write is small, limit the growth so we do not slow
+//  // down the small write too much.
+//  size_t max_size = 1 << 20;
+//  if (size <= (128<<10)) {
+//    max_size = size + (128<<10);
+//  }
+//
+//  *last_writer = first;
+//  std::deque<Writer*>::iterator iter = writers_.begin();
+//  ++iter;  // Advance past "first"
+//  for (; iter != writers_.end(); ++iter) {
+//    Writer* w = *iter;
+//    if (w->sync && !first->sync) {
+//      // Do not include a sync write into a batch handled by a non-sync write.
+//      break;
+//    }
+//
+//    if (w->batch != NULL) {
+//      size += WriteBatchInternal::ByteSize(w->batch);
+//      if (size > max_size) {
+//        // Do not make batch too big
+//        break;
+//      }
+//
+//      // Append to *result
+//      if (result == first->batch) {
+//        // Switch to temporary batch instead of disturbing caller's batch
+//        result = tmp_batch_;
+//        assert(WriteBatchInternal::Count(result) == 0);
+//        WriteBatchInternal::Append(result, first->batch);
+//      }
+//      WriteBatchInternal::Append(result, w->batch);
+//    }
+//    *last_writer = w;
+//  }
+//  return result;
+//}
 
 // REQUIRES: mutex_ is held
 // REQUIRES: this thread is currently at the front of the writer queue
