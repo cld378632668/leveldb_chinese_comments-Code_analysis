@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="leveldb_v1_3"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="leveldb_v1_3">
+				<Option output="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/leveldb_v1_3.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 leveldb_v1_3"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="leveldb_v1_3/fast">
+				<Option output="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/leveldb_v1_3.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 leveldb_v1_3/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/builder.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/builder.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/c.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/c_test.c">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/db_bench.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/db_impl.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/db_impl.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/db_iter.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/db_iter.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/db_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/dbformat.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/dbformat.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/dumpfile.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/filename.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/filename.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/filename_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/leveldbutil.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/log_format.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/log_reader.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/log_reader.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/log_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/log_writer.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/log_writer.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/memtable.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/memtable.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/repair.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/skiplist.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/snapshot.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/table_cache.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/table_cache.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/version_edit.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/version_edit.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/version_set.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/version_set.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/version_set_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/write_batch.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/db/write_batch_internal.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/helpers/memenv/memenv.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/helpers/memenv/memenv.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/c.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/cache.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/comparator.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/db.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/dumpfile.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/env.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/export.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/filter_policy.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/iterator.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/options.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/slice.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/status.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/table.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/table_builder.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/include/leveldb/write_batch.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/port/atomic_pointer.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/port/port.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/port/port_example.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/port/port_posix.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/port/port_posix.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/port/thread_annotations.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/port/win/stdint.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/block.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/block.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/block_builder.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/block_builder.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/filter_block.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/filter_block.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/filter_block_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/format.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/format.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/iterator.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/iterator_wrapper.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/merger.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/merger.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/table.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/table_builder.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/table_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/two_level_iterator.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/table/two_level_iterator.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/arena.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/arena.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/arena_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/bloom.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/bloom_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/cache.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/cache_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/coding.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/coding.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/coding_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/comparator.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/crc32c.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/crc32c.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/crc32c_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/env.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/env_posix.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/env_posix_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/env_posix_test_helper.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/env_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/filter_policy.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/hash.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/hash.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/hash_test.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/histogram.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/histogram.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/logging.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/logging.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/mutexlock.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/options.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/posix_logger.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/random.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/status.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/testharness.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/testharness.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/testutil.cc">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/util/testutil.h">
+			<Option target="leveldb_v1_3"/>
+		</Unit>
+		<Unit filename="G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
