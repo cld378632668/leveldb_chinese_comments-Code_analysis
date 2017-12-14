@@ -133,8 +133,8 @@ set(SOURCE_FILES
         table/iterator_wrapper.h
         table/merger.cc
         table/merger.h
-        table/table.cc
-        table/table_builder.cc
+       1 table/table.cc
+       1 table/table_builder.cc
         table/table_test.cc
         table/two_level_iterator.cc
         table/two_level_iterator.h
