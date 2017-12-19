@@ -36,7 +36,10 @@ TableCache::TableCache(const std::string& dbname,
       dbname_(dbname),
       options_(options),
       cache_(NewLRUCache(entries)) {
+<<<<<<< HEAD
 	//创建一个容量为entries的ShardedLRUCache（ShardedLRUCache请参见前面cache的分析
+=======
+>>>>>>> 111
 }
 
 TableCache::~TableCache() {
@@ -49,10 +52,15 @@ Status TableCache::FindTable(uint64_t file_number, uint64_t file_size,
   char buf[sizeof(file_number)];
   EncodeFixed64(buf, file_number);
   Slice key(buf, sizeof(buf));
+<<<<<<< HEAD
   *handle = cache_->Lookup(key);//可以看出tablecache的key就是文件的编号
   if (*handle == NULL) {
 	//cache中没找到该文件对应的table
 	//先打开该文件，涉及系统调用，挺费时间的
+=======
+  *handle = cache_->Lookup(key);
+  if (*handle == NULL) {
+>>>>>>> 111
     std::string fname = TableFileName(dbname_, file_number);
     RandomAccessFile* file = NULL;
     Table* table = NULL;
@@ -64,7 +72,10 @@ Status TableCache::FindTable(uint64_t file_number, uint64_t file_size,
       }
     }
     if (s.ok()) {
+<<<<<<< HEAD
 	//打开文件成功，则创建该文件对应的table
+=======
+>>>>>>> 111
       s = Table::Open(*options_, file, file_size, &table);
     }
 
@@ -77,8 +88,11 @@ Status TableCache::FindTable(uint64_t file_number, uint64_t file_size,
       TableAndFile* tf = new TableAndFile;
       tf->file = file;
       tf->table = table;
+<<<<<<< HEAD
 	  //tablecache中的value值就是TableAndFile，它包含一个已经打开的文件描述
 	  //符，以及创建好的table，加入cache中
+=======
+>>>>>>> 111
       *handle = cache_->Insert(key, tf, 1, &DeleteEntry);
     }
   }
@@ -123,7 +137,11 @@ Status TableCache::Get(const ReadOptions& options,
   }
   return s;
 }
+<<<<<<< HEAD
 //Evict 驱逐； Erase
+=======
+
+>>>>>>> 111
 void TableCache::Evict(uint64_t file_number) {
   char buf[sizeof(file_number)];
   EncodeFixed64(buf, file_number);
