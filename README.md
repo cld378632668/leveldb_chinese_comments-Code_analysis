@@ -19,7 +19,7 @@ include
 table
   blockbuilder
 util
-<<<<<<< HEAD
+
 cmake_minimum_required(VERSION 3.8)
 project(leveldb_v1_3)
 
@@ -275,4 +275,4 @@ add_executable(leveldb_v1_3 ${SOURCE_FILES})
 
 add_executable(leveldb_v1_3 ${SOURCE_FILES})
 =======
->>>>>>> 111
+
