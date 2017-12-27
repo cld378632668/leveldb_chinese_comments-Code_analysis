@@ -3,7 +3,13 @@
 
 statistic script for database LOG （）next step
 
+# Notice
 
+Log Dir
+source_code_analysis Dir 
+
+
+# Todo List
 
 
 
@@ -67,7 +73,7 @@ project(leveldb_v1_3)
 
 set(CMAKE_CXX_STANDARD 11)
 
- ``` 
+ ```
 set(SOURCE_FILES
         db/builder.cc
         db/builder.h
