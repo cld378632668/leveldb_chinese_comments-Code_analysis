@@ -16,3 +16,37 @@
  delete mode 100644 util/git_push_all_projects_in_pwd_LOG.txt
 /g/[important]MyCode/leveldb_chinese_comments
 2018年01月 2日 20:08:16
+[master 4074608] update
+ 33 files changed, 395 insertions(+), 5014 deletions(-)
+ delete mode 100644 .idea/.name
+ rewrite cmake-build-debug/CMakeCache.txt (95%)
+ delete mode 100644 cmake-build-debug/CMakeFiles/3.8.2/CMakeCCompiler.cmake
+ delete mode 100644 cmake-build-debug/CMakeFiles/3.8.2/CMakeCXXCompiler.cmake
+ delete mode 100644 cmake-build-debug/CMakeFiles/3.8.2/CMakeDetermineCompilerABI_C.bin
+ delete mode 100644 cmake-build-debug/CMakeFiles/3.8.2/CMakeDetermineCompilerABI_CXX.bin
+ delete mode 100644 cmake-build-debug/CMakeFiles/3.8.2/CMakeRCCompiler.cmake
+ delete mode 100644 cmake-build-debug/CMakeFiles/3.8.2/CMakeSystem.cmake
+ delete mode 100644 cmake-build-debug/CMakeFiles/3.8.2/CompilerIdC/CMakeCCompilerId.c
+ delete mode 100644 cmake-build-debug/CMakeFiles/3.8.2/CompilerIdCXX/CMakeCXXCompilerId.cpp
+ delete mode 100644 cmake-build-debug/CMakeFiles/3.8.2/CompilerIdCXX/a.exe
+ delete mode 100644 cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake
+ delete mode 100644 cmake-build-debug/CMakeFiles/CMakeOutput.log
+ delete mode 100644 cmake-build-debug/CMakeFiles/Makefile.cmake
+ delete mode 100644 cmake-build-debug/CMakeFiles/Makefile2
+ delete mode 100644 cmake-build-debug/CMakeFiles/TargetDirectories.txt
+ rewrite cmake-build-debug/CMakeFiles/clion-log.txt (99%)
+ delete mode 100644 cmake-build-debug/CMakeFiles/feature_tests.bin
+ delete mode 100644 cmake-build-debug/CMakeFiles/feature_tests.c
+ delete mode 100644 cmake-build-debug/CMakeFiles/feature_tests.cxx
+ delete mode 100644 cmake-build-debug/CMakeFiles/leveldb_v1_3.dir/DependInfo.cmake
+ delete mode 100644 cmake-build-debug/CMakeFiles/leveldb_v1_3.dir/build.make
+ delete mode 100644 cmake-build-debug/CMakeFiles/leveldb_v1_3.dir/cmake_clean.cmake
+ delete mode 100644 cmake-build-debug/CMakeFiles/leveldb_v1_3.dir/depend.make
+ delete mode 100644 cmake-build-debug/CMakeFiles/leveldb_v1_3.dir/flags.make
+ delete mode 100644 cmake-build-debug/CMakeFiles/leveldb_v1_3.dir/link.txt
+ delete mode 100644 cmake-build-debug/CMakeFiles/leveldb_v1_3.dir/linklibs.rsp
+ delete mode 100644 cmake-build-debug/CMakeFiles/leveldb_v1_3.dir/objects1.rsp
+ delete mode 100644 cmake-build-debug/CMakeFiles/leveldb_v1_3.dir/progress.make
+ delete mode 100644 cmake-build-debug/CMakeFiles/progress.marks
+/g/[important]MyCode/leveldb_chinese_comments
+2018年01月 2日 20:17:08
