@@ -1,3 +1,0 @@
-G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/CMakeFiles/leveldb_v1_3.dir
-G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/CMakeFiles/edit_cache.dir
-G:/1-RocksDB/machine8-home-compaction/leveldb-v1.3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
