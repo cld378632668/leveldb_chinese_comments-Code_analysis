@@ -25,7 +25,7 @@ struct FileMetaData {
   FileMetaData() : refs(0), allowed_seeks(1 << 30), file_size(0) { }
 };
 
-class VersionEdit {
+class VersionEdit { //VersionEdit就相当于MANIFEST文件中的一条记录。
  public:
   VersionEdit() { Clear(); }
   ~VersionEdit() { }
@@ -56,27 +56,34 @@ class VersionEdit {
     compact_pointers_.push_back(std::make_pair(level, key));
   }
 
-  // Add the specified file at the specified number.
+  // definition and implemention
+  // S1、新添加的sstable的文件number、大小、smallestkey和largest逐一赋值给FileMetaData
+  // S2、将level和FileMetaData信息作为一个pair添加到VersionEdit的new_files_中
+  // std::vector< std::pair<int, FileMetaData> > new_files_;
   // REQUIRES: This version has not been saved (see VersionSet::SaveTo)
   // REQUIRES: "smallest" and "largest" are smallest and largest keys in file
   void AddFile(int level, uint64_t file,
                uint64_t file_size,
                const InternalKey& smallest,
                const InternalKey& largest) {
+	// S1、新添加的sstable的文件number、大小、smallestkey和largest逐一赋值给FileMetaData
     FileMetaData f;
     f.number = file;
     f.file_size = file_size;
     f.smallest = smallest;
     f.largest = largest;
+	// S2、将level和FileMetaData信息作为一个pair添加到VersionEdit的new_files_中
     new_files_.push_back(std::make_pair(level, f));
   }
 
-  // Delete the specified "file" from the specified "level".
+  //完成 从指定的level删除指定number的sst  的信息预记录。 Delete the specified "file" from the specified "level".
   void DeleteFile(int level, uint64_t file) {
     deleted_files_.insert(std::make_pair(level, file));
   }
 
-  void EncodeTo(std::string* dst) const;
+  // 将VersionEdit(this)的信息Encode到一个string中，作为一个record，便于之后写入manifest文件 
+  void EncodeTo(std::string* dst) const; 
+  // 从Slice中Decode出VersionEdit的信息  
   Status DecodeFrom(const Slice& src);
 
   std::string DebugString() const;
@@ -86,20 +93,22 @@ class VersionEdit {
 
   typedef std::set< std::pair<int, uint64_t> > DeletedFileSet;
 
-  std::string comparator_;
-  uint64_t log_number_;
-  uint64_t prev_log_number_;
-  uint64_t next_file_number_;
-  SequenceNumber last_sequence_;
+  std::string comparator_; // key comparator名字  
+  uint64_t log_number_; // 当前versionEdit所属（bin）log编号**   
+  uint64_t prev_log_number_; // 前一个日志编号,为了兼容老版本，新版本已弃用，一直为0  
+  uint64_t next_file_number_; // 下一个文件编号  指的是manifest文件吗？印象中manifest只会有一个
+  SequenceNumber last_sequence_; // db中最大的seq（序列号），即最后一对kv事务操作的序列号
+  //Manifest文件中首先存储的是coparator名、log编号、前一个log编号、下一个文件编号、上一个序列号。
+  //这些都是日志、sstable文件使用到的重要信息，这些字段不一定必然存在。
   bool has_comparator_;
   bool has_log_number_;
   bool has_prev_log_number_;
   bool has_next_file_number_;
   bool has_last_sequence_;
 
-  std::vector< std::pair<int, InternalKey> > compact_pointers_;
-  DeletedFileSet deleted_files_;
-  std::vector< std::pair<int, FileMetaData> > new_files_;
+  std::vector< std::pair<int, InternalKey> > compact_pointers_; //记录每一层下次合并的起始key
+  DeletedFileSet deleted_files_; //在此次VersionEdit（delta）中删除的文件集合。在save时实际执行添加操作**
+  std::vector< std::pair<int, FileMetaData> > new_files_; //在此次VersionEdit（delta）中新添加的sst集合。 
 };
 
 }  // namespace leveldb
