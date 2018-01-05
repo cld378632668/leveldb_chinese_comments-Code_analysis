@@ -56,6 +56,30 @@ extern bool SomeFileOverlapsRange(
     const Slice* smallest_user_key,
     const Slice* largest_user_key);
 
+//Intervene
+class Intervene{
+    double countinous_compact_time[];   // An array of continous compaction time that has been spent on each level.
+    int continous_compact_times[];      // Continous compaction excution times of each level.
+    int a;                              // The coefficient that is multiplied to ATOC.
+    double ATOC[];                      // The average time of one compaction of each level.
+    double ACCT[];                      // The average continuous execution time of each level.
+    int ACCTs[];                        // The average continuous execution times of each level.
+    int last_compaction_level;
+
+    bool if_continue_compact_ATOC(largest_score_level){
+      return countinous_compact_time[last_compaction_level] < a * ATOC[last_compaction_level] ? true : false ;
+    }
+
+    bool if_continue_compact_ATOC(largest_score_level){
+      return countinous_compact_time[last_compaction_level] < ACCT[last_compaction_level] ? true : false ;
+    }
+
+    bool if_continue_compact_ATOC(largest_score_level){
+      return countinous_compact_times[last_compaction_level] < ACCTs[last_compaction_level] ? true : false ;
+    }
+};
+
+
 class Version {
  public:
   // Append to *iters a sequence of iterators that will

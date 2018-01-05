@@ -71,7 +71,7 @@ Version::~Version() {
   prev_->next_ = next_;
   next_->prev_ = prev_;
 
-  // Drop references to files  ¸Ã°æ±¾ÏÂÉæ¼°µ½µÄÃ¿¸össtµÄrefs ¼õÒ»
+  // Drop references to files  ï¿½Ã°æ±¾ï¿½ï¿½ï¿½æ¼°ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½sstï¿½ï¿½refs ï¿½ï¿½Ò»
   for (int level = 0; level < config::kNumLevels; level++) {
     for (size_t i = 0; i < files_[level].size(); i++) {
       FileMetaData* f = files_[level][i];
@@ -804,12 +804,12 @@ VersionSet::~VersionSet() {
 //insert a new node to circular double-linked list
 void VersionSet::AppendVersion(Version* v) {
   // Make "v" current
-  assert(v->refs_ == 0); //È·±£µÈÓÚ0Èç¹û²»µÈÓÚ0£¬¾Í²»ÊÇÐÂµÄ£¬²»ÄÜ³ÉÎªcurrent
+  assert(v->refs_ == 0); //È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½Í²ï¿½ï¿½ï¿½ï¿½ÂµÄ£ï¿½ï¿½ï¿½ï¿½Ü³ï¿½Îªcurrent
   assert(v != current_);
   if (current_ != NULL) {
-    current_->Unref(); //¶ÔÀÏµÄcurrent versionÖ´ÐÐUref()
+    current_->Unref(); //ï¿½ï¿½ï¿½Ïµï¿½current versionÖ´ï¿½ï¿½Uref()
   }
-  current_ = v;//´´ÔìÐÂµÄcurrent
+  current_ = v;//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½current
   v->Ref();
 
   //insert a new node to circular double-linked list
@@ -1067,6 +1067,10 @@ void VersionSet::MarkFileNumberUsed(uint64_t number) {
   }
 }
 
+/**
+ * Update each level's score ,choose the best_level and best_score to update Version's  compaction_level_ and compaction_score_
+ * @param v
+ */
 void VersionSet::Finalize(Version* v) {
   // Precomputed best level for next compaction
   int best_level = -1;
