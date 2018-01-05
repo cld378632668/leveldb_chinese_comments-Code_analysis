@@ -38,6 +38,7 @@ void VersionEdit::Clear() {
   new_files_.clear();
 }
 
+//Encode this VersionEdit object to dst 
 void VersionEdit::EncodeTo(std::string* dst) const {
   if (has_comparator_) {
     PutVarint32(dst, kComparator);
@@ -60,12 +61,13 @@ void VersionEdit::EncodeTo(std::string* dst) const {
     PutVarint64(dst, last_sequence_);
   }
 
+  // Encode 每一级Level下次compaction的起始Key 
   for (size_t i = 0; i < compact_pointers_.size(); i++) {
     PutVarint32(dst, kCompactPointer);
     PutVarint32(dst, compact_pointers_[i].first);  // level
     PutLengthPrefixedSlice(dst, compact_pointers_[i].second.Encode());
   }
-
+  // Encode 每一级需要删除的文件 to dst
   for (DeletedFileSet::const_iterator iter = deleted_files_.begin();
        iter != deleted_files_.end();
        ++iter) {
@@ -73,7 +75,7 @@ void VersionEdit::EncodeTo(std::string* dst) const {
     PutVarint32(dst, iter->first);   // level
     PutVarint64(dst, iter->second);  // file number
   }
-
+  // Encode 每一级需要有效的sst以及其smallest与largest的key to dst
   for (size_t i = 0; i < new_files_.size(); i++) {
     const FileMetaData& f = new_files_[i].second;
     PutVarint32(dst, kNewFile);
@@ -106,6 +108,7 @@ static bool GetLevel(Slice* input, int* level) {
   }
 }
 
+//Decode src to this VersionEdit
 Status VersionEdit::DecodeFrom(const Slice& src) {
   Clear();
   Slice input = src;
@@ -209,6 +212,7 @@ Status VersionEdit::DecodeFrom(const Slice& src) {
   return result;
 }
 
+//** where to be called and what is its function
 std::string VersionEdit::DebugString() const {
   std::string r;
   r.append("VersionEdit {");

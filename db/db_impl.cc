@@ -174,6 +174,8 @@ DBImpl::~DBImpl() {
   }
 }
 
+//
+//S1. 
 Status DBImpl::NewDB() {
   VersionEdit new_db;
   new_db.SetComparatorName(user_comparator()->Name());
@@ -184,6 +186,7 @@ Status DBImpl::NewDB() {
   const std::string manifest = DescriptorFileName(dbname_, 1);
   WritableFile* file;
   Status s = env_->NewWritableFile(manifest, &file);
+  
   if (!s.ok()) {
     return s;
   }
@@ -197,6 +200,7 @@ Status DBImpl::NewDB() {
     }
   }
   delete file;
+
   if (s.ok()) {
     // Make "CURRENT" file that points to the new manifest file.
     s = SetCurrentFile(env_, dbname_, 1);
@@ -1072,16 +1076,16 @@ Iterator* DBImpl::NewInternalIterator(const ReadOptions& options,
   *latest_snapshot = versions_->LastSequence();
 
 <<<<<<< HEAD
-  //´Ë´¦¸úDBIterÓÐ¹Ø
+  //ï¿½Ë´ï¿½ï¿½ï¿½DBIterï¿½Ð¹ï¿½
   // Collect together all needed child iterators
   std::vector<Iterator*> list;
-  list.push_back(mem_->NewIterator()); //¼ÓÈëmemtbaleµÄµü´úÆ÷
+  list.push_back(mem_->NewIterator()); //ï¿½ï¿½ï¿½ï¿½memtbaleï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½
   mem_->Ref();
   if (imm_ != NULL) {
-    list.push_back(imm_->NewIterator());//¼ÓÈëimmemtbaleµÄµü´úÆ÷
+    list.push_back(imm_->NewIterator());//ï¿½ï¿½ï¿½ï¿½immemtbaleï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½
     imm_->Ref();
   }
-  versions_->current()->AddIterators(options, &list);//¿ÉÒÔ¼òµ¥Àí½âÎª¼ÓÈëËùÓÐsstÎÄ¼þµÄµü´úÆ÷
+  versions_->current()->AddIterators(options, &list);//ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sstï¿½Ä¼ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½
 =======
   // Collect together all needed child iterators
   std::vector<Iterator*> list;
@@ -1212,21 +1216,21 @@ Status DBImpl::Write(const WriteOptions& options, WriteBatch* my_batch) {
 	*  bool done;
 	* port::CondVar cv;
 	*};
-	*Writer·â×°WriteBatch£¬Ö÷ÒªÊÇ¶àÁËÐÅºÅÁ¿cvÓÃÓÚ¶àÏß³ÌµÄÍ¬²½£¬ÒÔ¼°¸ÃbatchÊÇ·ñÍê³ÉµÄ±êÖ¾done
+	*Writerï¿½ï¿½×°WriteBatchï¿½ï¿½ï¿½ï¿½Òªï¿½Ç¶ï¿½ï¿½ï¿½ï¿½Åºï¿½ï¿½ï¿½cvï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ß³Ìµï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½batchï¿½Ç·ï¿½ï¿½ï¿½ÉµÄ±ï¿½Ö¾done
 	*/
 	Writer w(&mutex_);
 	w.batch = my_batch;
 	w.sync = options.sync;
 	w.done = false;
 
-	//¼ÓËø,ÒòÎªwÒª²åÈëÈ«¾Ö¶ÓÁÐwriters_ÖÐ
+	//ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ÎªwÒªï¿½ï¿½ï¿½ï¿½È«ï¿½Ö¶ï¿½ï¿½ï¿½writers_ï¿½ï¿½
 	MutexLock l(&mutex_);
 	writers_.push_back(&w);
-	//Ö»ÓÐµ±wÊÇÎ»ÓÚ¶ÓÁÐÍ·²¿ÇÒw²¢Ã»ÓÐÍê³ÉÊ±²Å²»ÓÃµÈ´ý
+	//Ö»ï¿½Ðµï¿½wï¿½ï¿½Î»ï¿½Ú¶ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Å²ï¿½ï¿½ÃµÈ´ï¿½
 	while (!w.done && &w != writers_.front()) {
 		w.cv.Wait();
 	}
-	//¿ÉÄÜ¸ÃwÖÐµÄbatch±»ÆäËûÏß³ÌÍ¨¹ýÏÂÃæ½²µ½µÄºÏ²¢²Ù×÷Ò»ÆðÍê³ÉÁË
+	//ï¿½ï¿½ï¿½Ü¸ï¿½wï¿½Ðµï¿½batchï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½æ½²ï¿½ï¿½ï¿½ÄºÏ²ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (w.done) {
 		return w.status;
 	}
@@ -1236,62 +1240,62 @@ Status DBImpl::Write(const WriteOptions& options, WriteBatch* my_batch) {
 	uint64_t last_sequence = versions_->LastSequence();
 	Writer* last_writer = &w;
 	if (status.ok() && my_batch != NULL) {
-		//ºÏ²¢¶ÓÁÐÖÐµÄ¸÷¸öbatchµ½Ò»¸öÐÂbatchÖÐ
+		//ï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÐµÄ¸ï¿½ï¿½ï¿½batchï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½batchï¿½ï¿½
 		WriteBatch* updates = BuildBatchGroup(&last_writer);
-		//ÎªºÏ²¢ºóµÄÐÂbatchÖÐµÄµÚÒ»¸ö²Ù×÷¸³ÉÏÈ«¾ÖÐòÁÐºÅ
+		//Îªï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½batchï¿½ÐµÄµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½Ðºï¿½
 		WriteBatchInternal::SetSequence(updates, last_sequence + 1);
-		//²¢¼ÆËãÐÂµÄÈ«¾ÖÐòÁÐºÅ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½Ðºï¿½
 		last_sequence += WriteBatchInternal::Count(updates);
 
 		{
-			//Íù´ÅÅÌÐ´ÈÕÖ¾ÎÄ¼þ¿ªÏúºÜ´ó£¬´ËÊ±¿ÉÒÔÊÍ·ÅËøÀ´Ìá¸ß²¢·¢£¬´ËÊ±ÆäËûÏß³Ì¿ÉÒÔ½«
-			//ÐÂµÄwriter²åÈëµ½¶ÓÁÐwriters_ÖÐ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü´ó£¬´ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì¿ï¿½ï¿½Ô½ï¿½
+			//ï¿½Âµï¿½writerï¿½ï¿½ï¿½ëµ½ï¿½ï¿½ï¿½ï¿½writers_ï¿½ï¿½
 			mutex_.Unlock();
-			//½«batchÖÐµÄÃ¿Ìõ²Ù×÷Ð´ÈëÈÕÖ¾ÎÄ¼þlog_ÖÐ
+			//ï¿½ï¿½batchï¿½Ðµï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½log_ï¿½ï¿½
 			status = log_->AddRecord(WriteBatchInternal::Contents(updates));
 			bool sync_error = false;
 			if (status.ok() && options.sync) {
-				//ÊÇ·ñÒªÇóÁ¢ÂíË¢ÅÌ½«logÐ´µ½´ÅÅÌ£¬ÒòÎªÎÒÃÇÖªµÀÎÄ¼þÏµÍ³»¹ÓÐ×Ô¼ºµÄ»º´æ
+				//ï¿½Ç·ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½Ì½ï¿½logÐ´ï¿½ï¿½ï¿½ï¿½ï¿½Ì£ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Öªï¿½ï¿½ï¿½Ä¼ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½Ä»ï¿½ï¿½ï¿½
 				status = logfile_->Sync();
 				if (!status.ok()) {
 					sync_error = true;
 				}
 			}
 			if (status.ok()) {
-				//½«batchÖÐÃ¿Ìõ²Ù×÷²åÈëµ½memtableÖÐ
+				//ï¿½ï¿½batchï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ëµ½memtableï¿½ï¿½
 				status = WriteBatchInternal::InsertInto(updates, mem_);
 			}
-			//ÖØÐÂ¼ÓËø
+			//ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
 			mutex_.Lock();
 		}
-		//ÒòÎªupdatesÒÑ¾­Ð´ÈëÁËlogºÍmemtable£¬¿ÉÒÔÇå¿ÕÁË
+		//ï¿½ï¿½Îªupdatesï¿½Ñ¾ï¿½Ð´ï¿½ï¿½ï¿½ï¿½logï¿½ï¿½memtableï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (updates == tmp_batch_) tmp_batch_->Clear();
-		//ÖØÐÂÉèÖÃÐÂµÄÈ«¾ÖÐòÁÐºÅ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½Ðºï¿½
 		versions_->SetLastSequence(last_sequence);
 	}
 
 	while (true) {
-		//ÒòÎªÎÒÃÇµÄupdates¿ÉÄÜºÏ²¢ÁËwriters_¶ÓÁÐÖÐµÄºÜ¶à,µ±Ç°Ïß³ÌÍê³ÉÁËÆäËûÏß³ÌµÄ
-		//writer£¬Ö»Ðè»½ÐÑÕâÐ©ÒÑÍê³ÉwriterµÄÏß³Ì
+		//ï¿½ï¿½Îªï¿½ï¿½ï¿½Çµï¿½updatesï¿½ï¿½ï¿½ÜºÏ²ï¿½ï¿½ï¿½writers_ï¿½ï¿½ï¿½ï¿½ï¿½ÐµÄºÜ¶ï¿½,ï¿½ï¿½Ç°ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ìµï¿½
+		//writerï¿½ï¿½Ö»ï¿½è»½ï¿½ï¿½ï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½ï¿½writerï¿½ï¿½ï¿½ß³ï¿½
 		Writer* ready = writers_.front();
-		//´Ó¶ÓÁÐÍ·²¿È¡³öÒÑÍê³ÉµÄwriter
+		//ï¿½Ó¶ï¿½ï¿½ï¿½Í·ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½writer
 		writers_.pop_front();
 		if (ready != &w) {
-			//Èç¹ûÈ¡³öµÄwriter²»ÊÇµ±Ç°Ïß³ÌµÄ×Ô¼ºµÄ£¬Ôò»½ÐÑwriterËùÊôµÄÏß³Ì£¬»½ÐÑµÄÏß³Ì»áÖ´
-			//ÐÐ if (w.done) {
+			//ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½writerï¿½ï¿½ï¿½Çµï¿½Ç°ï¿½ß³Ìµï¿½ï¿½Ô¼ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½writerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì£ï¿½ï¿½ï¿½ï¿½Ñµï¿½ï¿½ß³Ì»ï¿½Ö´
+			//ï¿½ï¿½ if (w.done) {
 			// return w.status;
-			//}Âß¼­
+			//}ï¿½ß¼ï¿½
 			ready->status = status;
 			ready->done = true;
 			ready->cv.Signal();
 		}
-		//ready == last_writerËµÃ÷ÕâÒÑ¾­ÊÇºÏ²¢µÄbatchÖÐ×îºóÒ»¸öÒÑÍê³ÉµÄwriterÁË
+		//ready == last_writerËµï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ÇºÏ²ï¿½ï¿½ï¿½batchï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½writerï¿½ï¿½
 		if (ready == last_writer) break;
 	}
 
 	// Notify new head of write queue
 	if (!writers_.empty()) {
-		//¶ÓÁÐ²»¿Õ£¬Ôò»½ÐÑ¶ÓÁÐÍ·²¿writerËùÊôµÄÏß³Ì£¬²Î¼ûÉÏÃæ while (!w.done && &w != writers_.front())
+		//ï¿½ï¿½ï¿½Ð²ï¿½ï¿½Õ£ï¿½ï¿½ï¿½ï¿½Ñ¶ï¿½ï¿½ï¿½Í·ï¿½ï¿½writerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì£ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ï¿½ï¿½ while (!w.done && &w != writers_.front())
 		writers_.front()->cv.Signal();
 	}
 
@@ -1456,21 +1460,21 @@ WriteBatch* DBImpl::BuildBatchGroup(Writer** last_writer) {
 
 	size_t size = WriteBatchInternal::ByteSize(first->batch);
 
-	// ÉèÖÃºÏ²¢ºó²úÉúµÄbatchµÄ×î´óÈÝÁ¿
+	// ï¿½ï¿½ï¿½ÃºÏ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½batchï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	size_t max_size = 1 << 20;
 	if (size <= (128 << 10)) {
-		//Èç¹ûµÚÒ»¸ö´ýºÏ²¢µÄbatchµÄsizeºÜÐ¡£¬ÔòÏàÓ¦¼õÐ¡ºÏ²¢ºóbatchµÄ×î´óÈÝÁ¿
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ï²ï¿½ï¿½ï¿½batchï¿½ï¿½sizeï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ð¡ï¿½Ï²ï¿½ï¿½ï¿½batchï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		max_size = size + (128 << 10);
 	}
-	//ÎÒÃÇÐèÒª¼ÇÂ¼writers_¶ÓÁÐÖÐ×îºóÒ»¸ö±»ºÏ²¢µÄwriter£¬ÒòÎªwriteº¯ÊýÖÐ»½ÐÑÏß³ÌÐèÒªÓÃ
-	//µ½£¬·ÀÖ¹Ð¡µÄbatchÐèÒªµÈ´ý¹ý¾ÃÓÃÓÚºÏ²¢
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Â¼writers_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ï²ï¿½ï¿½ï¿½writerï¿½ï¿½ï¿½ï¿½Îªwriteï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½Òªï¿½ï¿½
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¹Ð¡ï¿½ï¿½batchï¿½ï¿½Òªï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÚºÏ²ï¿½
 	*last_writer = first;
 	std::deque<Writer*>::iterator iter = writers_.begin();
 	++iter;  // Advance past "first"
 	for (; iter != writers_.end(); ++iter) {
 		Writer* w = *iter;
 		if (w->sync && !first->sync) {
-			//ÄÜºÏ²¢µ½Ò»ÆðµÄbatch´ó¼ÒµÄsyncÊôÐÔ±ØÐëÏàÍ¬
+			//ï¿½ÜºÏ²ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½batchï¿½ï¿½Òµï¿½syncï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½Í¬
 			break;
 		}
 
@@ -1483,15 +1487,15 @@ WriteBatch* DBImpl::BuildBatchGroup(Writer** last_writer) {
 
 			// Append to *result
 			if (result == first->batch) {
-				// ÓÃdbÊý¾Ý³ÉÔ±tmp_batch_´æ·ÅºÏ²¢ºóµÄ½á¹û£¬Ïàµ±ÓÚ°Ñ¸÷¸ö´ýºÏ²¢µÄwriterÖÐ
-				//µÄÊý¾ÝÈ«¶¼¿½±´½øÁËtmp_batch_
+				// ï¿½ï¿½dbï¿½ï¿½ï¿½Ý³ï¿½Ô±tmp_batch_ï¿½ï¿½ÅºÏ²ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½àµ±ï¿½Ú°Ñ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï²ï¿½ï¿½ï¿½writerï¿½ï¿½
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tmp_batch_
 				result = tmp_batch_;
 				assert(WriteBatchInternal::Count(result) == 0);
 				WriteBatchInternal::Append(result, first->batch);
 			}
 			WriteBatchInternal::Append(result, w->batch);
 		}
-		*last_writer = w;//¼ÇÂ¼×îºóÒ»¸öºÏ²¢µÄwriter
+		*last_writer = w;//ï¿½ï¿½Â¼ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ï²ï¿½ï¿½ï¿½writer
 	}
 	return result;
 }
