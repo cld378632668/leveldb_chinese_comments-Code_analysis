@@ -268,8 +268,20 @@ void DBImpl::DeleteObsoleteFiles() {
         }
         Log(options_.info_log, "Delete type=%d #%lld\n",
             int(type),
-            static_cast<unsigned long long>(number));
+            static_cast<unsigned long long>(number));//要删除的文件编号
         env_->DeleteFile(dbname_ + "/" + filenames[i]);
+//        DoCompactionWork()之后做的垃圾回收工作，这个日志的输出是将type类型的文件删除掉。而type的值就是
+//        enum FileType {
+//            kLogFile,
+//            kDBLockFile,
+//            kTableFile,
+//            kDescriptorFile,//这个标志就是MANIFEST文件
+//            kCurrentFile,
+//            kTempFile,
+//            kInfoLogFile  // Either the current one, or an old one
+//        };
+//        分别从0到6个数来表示不同的文件类型。
+
       }
     }
   }
@@ -499,6 +511,8 @@ Status DBImpl::WriteLevel0Table(MemTable* mem, VersionEdit* edit,
   Iterator* iter = mem->NewIterator();
   Log(options_.info_log, "Level-0 table #%llu: started",
       (unsigned long long) meta.number);
+  //Correspond to  2017/12/06-16:04:17.258326 7f8b9a470700 Level-0 table #5: started in LOG
+  //immutable进行compaction到level-0,标志着minor compaction的开始。
 
   Status s;
   {
@@ -511,6 +525,9 @@ Status DBImpl::WriteLevel0Table(MemTable* mem, VersionEdit* edit,
       (unsigned long long) meta.number,
       (unsigned long long) meta.file_size,
       s.ToString().c_str());
+  //Correspond to  2017/12/06-16:04:17.430782 7f8b9a470700 Level-0 table #5: 4112087 bytes OK in LOG
+  //compaction到level-0，**的size，标志着minor compaction的結束。
+
   delete iter;
   pending_outputs_.erase(meta.number);
 
@@ -855,12 +872,21 @@ Status DBImpl::FinishCompactionOutputFile(CompactionState* compact,
     s = iter->status();
     delete iter;
     if (s.ok()) {
+      //将合并生成的新sstable落盘时写的内容。
       Log(options_.info_log,
-          "Generated table #%llu@%d: %lld keys, %lld bytes",
-          (unsigned long long) output_number,
-          compact->compaction->level(),
-          (unsigned long long) current_entries,
-          (unsigned long long) current_bytes);
+          "Generated table #%llu@%d: %lld keys, %lld bytes", //#%llu@%d
+          (unsigned long long) output_number,   //生成的sstable文件编号
+          compact->compaction->level(),         //合并的level,其实是将新的sstable放到level+1中  it is a contradiction with below real data  7 8 9
+          (unsigned long long) current_entries, //sstable中的记录数
+          (unsigned long long) current_bytes);  //sstabl占据的大小
+      //it can be observed that #%llu@%d is a whole number.   it is a contradiction with below real data
+
+//      2017/12/06-16:05:53.679580 7f8b9a470700 Compacting 1@1 + 4@2 files
+//      2017/12/06-16:05:53.732946 7f8b9a470700 Generated table #1757: 1864 keys, 2109347 bytes   7
+//      2017/12/06-16:05:53.790260 7f8b9a470700 Generated table #1758: 1864 keys, 2109142 bytes   8
+//      2017/12/06-16:05:53.847735 7f8b9a470700 Generated table #1759: 1864 keys, 2109623 bytes   9
+//      2017/12/06-16:05:53.899492 7f8b9a470700 Generated table #1760: 1864 keys, 2109375 bytes
+//      2017/12/06-16:05:53.951187 7f8b9a470700 Generated table #1761: 1864 keys, 2109975 bytes
     }
   }
   return s;
@@ -869,12 +895,14 @@ Status DBImpl::FinishCompactionOutputFile(CompactionState* compact,
 
 Status DBImpl::InstallCompactionResults(CompactionState* compact) {
   mutex_.AssertHeld();
+
   Log(options_.info_log,  "Compacted %d@%d + %d@%d files => %lld bytes",
-      compact->compaction->num_input_files(0),
+      compact->compaction->num_input_files(0),//level中要删除文件的总数
       compact->compaction->level(),
-      compact->compaction->num_input_files(1),
+      compact->compaction->num_input_files(1),//level+1中要删除文件的总数
       compact->compaction->level() + 1,
-      static_cast<long long>(compact->total_bytes));
+      static_cast<long long>(compact->total_bytes));//要删除的总大小(inputs_[2]数组的总大小)
+  //Compaction Finished.
 
   // Add compaction outputs
   compact->compaction->AddInputDeletions(compact->compaction->edit());
@@ -897,6 +925,7 @@ Status DBImpl::DoCompactionWork(CompactionState* compact) {
       compact->compaction->level(),
       compact->compaction->num_input_files(1),
       compact->compaction->level() + 1);
+ //真正合并的开始
 
   assert(versions_->NumLevelFiles(compact->compaction->level()) > 0);
   assert(compact->builder == NULL);
@@ -1046,6 +1075,7 @@ Status DBImpl::DoCompactionWork(CompactionState* compact) {
   VersionSet::LevelSummaryStorage tmp;
   Log(options_.info_log,
       "compacted to: %s", versions_->LevelSummary(&tmp));
+  //compacted to: files[ 0 9 1 0 0 0 0 ]。这里正好有七层，代表着每一层有多少个sstable文件。
   return status;
 }
 

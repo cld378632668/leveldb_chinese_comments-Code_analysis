@@ -1382,13 +1382,17 @@ void VersionSet::SetupOtherInputs(Compaction* c) {
       if (expanded1.size() == c->inputs_[1].size()) {
         Log(options_->info_log,
             "Expanding@%d %d+%d (%ld+%ld bytes) to %d+%d (%ld+%ld bytes)\n",
-            level,
-            int(c->inputs_[0].size()),
+            //"Expanding@%d     %d+%d (%ld+%ld bytes) to %d+%d (%ld+%ld bytes)\n",
+            //          level
+            level, //compaction level
+            int(c->inputs_[0].size()), //inputs_[0].size() 表示Ln文件个数
             int(c->inputs_[1].size()),
-            long(inputs0_size), long(inputs1_size),
-            int(expanded0.size()),
-            int(expanded1.size()),
+            long(inputs0_size), long(inputs1_size), // 回选之前上下两层的大小
+            int(expanded0.size()),   //进行回选后，Ln上选取的文件总大小由inputs0_size变为expanded0.size()
+            int(expanded1.size()),   //因为Ln+1不拓展，expanded1.size() 恒等于 inputs_1.size
             long(expanded0_size), long(inputs1_size));
+        //Correspond to 2017/12/06-16:04:18.908038 7f8b9a470700 Expanding@1 1+1 (2111711+4112087 bytes) to 10+1 (20562901+4112087 bytes)
+
         smallest = new_start;
         largest = new_limit;
         c->inputs_[0] = expanded0;
