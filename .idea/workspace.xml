@@ -10,7 +10,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40403d5c-4b98-4644-bce7-8630aaf54b7e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/git_push_all_projects_in_pwd_LOG.txt" afterPath="$PROJECT_DIR$/git_push_all_projects_in_pwd_LOG.txt" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
