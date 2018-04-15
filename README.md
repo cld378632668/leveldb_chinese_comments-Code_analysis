@@ -4,7 +4,7 @@
 上传到Github的中文注释主要集中在Compaction一块，如需要其他部分的中文注释请单独联系我。
 其他问题可加入leveldb rocksdb QQ群49444390讨论。
 
-部分源代码剖析文章：https://www.jianshu.com/c/11e6a5f010aa ，如需要其他部分请单独联系我。
+部分源代码剖析文章：https://www.jianshu.com/c/11e6a5f010aa ，如需要其他部分请单独联系我。虽然写得很烂，但在整个简书上看还算好的，不算特别烂的。
 
 
 
