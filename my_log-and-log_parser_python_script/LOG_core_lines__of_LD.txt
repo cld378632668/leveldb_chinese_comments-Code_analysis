@@ -1,0 +1,39 @@
+Config:
+
+recordcount=1000
+fieldcount=1
+fieldlength=1000
+operationcount=5000000
+workload=com.yahoo.ycsb.workloads.CoreWorkload
+
+readallfields=true
+
+readproportion=0
+updateproportion=0
+scanproportion=0
+insertproportion=1
+
+requestdistribution=uniform
+
+Overview:
+The first time to insert 500000 records uses 31min。 375.1451502
+The second time to insert 500000 records uses 37min。
+
+
+
+[first]2017/12/06-11:14:36.235613 7f635f9f9700 Recovering log #21431
+2017/12/06-11:14:36.239396 7f635f9f9700 Level-0 table #21448: started
+2017/12/06-11:14:36.288008 7f635f9f9700 Level-0 table #21448: 1420233 bytes OK
+2017/12/06-11:14:36.330076 7f635f9f9700 Delete type=2 #21452
+2017/12/06-11:14:36.333974 7f635f9f9700 Delete type=0 #21431
+2017/12/06-11:14:36.334395 7f635f9f9700 Delete type=3 #1906
+2017/12/06-11:14:36.335536 7f635f022700 Compacting 13@0 + 20@1 files
+2017/12/06-11:14:36.398959 7f635f022700 Generated table #21450: 1864 keys, 2110123 bytes
+2017/12/06-11:14:38.609859 7f635f022700 Compacted 13@0 + 20@1 files => 82156260 bytes
+2017/12/06-11:14:38.632525 7f635f022700 compacted to: files[ 0 45 208 1409 0 0 0 ]
+2017/12/06-11:14:48.274459 7f635f022700 Expanding@2 1+4 (2109406+8442564 bytes) to 2+4 (2477108+8442564 bytes)
+...
+2017/12/06-11:51:55.996892 7f635f022700 compacted to: files[ 0 44 217 1547 1147 0 0 ]
+2017/12/06-11:51:56.001687 7f635f022700 Delete type=2 #62004
+2017/12/06-11:51:56.001776 7f635f022700 Delete type=2 #62001
+[last]2017/12/06-11:51:56.002611 7f635f022700 Delete type=2 #62003
