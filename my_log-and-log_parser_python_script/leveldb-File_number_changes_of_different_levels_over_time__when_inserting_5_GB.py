@@ -1,6 +1,11 @@
 #/usr/bin/python
 #
 
+
+##
+#File_number_changes_of_different_levels_over_time__when_inserting_5_GB
+##
+
 # Parse :
 
 # LOG_of_leveldb_example.
@@ -45,7 +50,8 @@ print(list_list)
 
 #plt.axis([0,max_x,0,max_y])
 print(max_x,max_y)
-for i in range(len(list_list)):
+# for i in range(len(list_list)):
+for i in range(5):
     plt.plot(list_list[i],label='L'+str(i))
 #plt.axis([0,max_x,0,max_y])
 

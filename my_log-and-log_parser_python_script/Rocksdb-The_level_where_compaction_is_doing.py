@@ -5,6 +5,9 @@
 import re
 import matplotlib.pyplot as plt
 
+###
+#The_level_where_compaction_is_doing_of_Rocksdb
+###
 
 #log_file_path = 'LOG_of_leveldb_example'
 log_file_path = r'G:\1-RocksDB\Slot实验\LOG_rocksdb_origin-ycsb_1G_50G_onlyrun_cld'
