@@ -46,13 +46,27 @@ print(list_list)
 #nowe，  list_list = [[0,9 ...],[30,14 ...],[],[],[],[],[]]
 
 
-# fig,ax = plt.subplot()
+plt.figure(figsize=(60, 45))  # 跟已有的某句代码冲突
+fig,ax = plt.subplots()
+
+ax.set_title('The number of SSTables in each level changes over time \n when inserting 5 GB')
+
+"""设置坐标轴的label"""
+plt.xlabel(' Time(sec) ')
+plt.ylabel(' SStable files number ')
+
 
 #plt.axis([0,max_x,0,max_y])
 print(max_x,max_y)
 # for i in range(len(list_list)):
-for i in range(5):
-    plt.plot(list_list[i],label='L'+str(i))
+
+marker = ['1' , '' , '' , '' , '']
+# linestyle = ['None', '--', '-', '-.', ':']
+linestyle = ['None', '-', ':', '-.', '--']
+linestyle = ['None', '-', '-.', '--', ':']
+for i in range(4):
+    plt.plot(list_list[i+1], label='L'+str(i+1), linestyle = linestyle[i+1], marker = marker[i+1]);
+# marker = marker[i]
 #plt.axis([0,max_x,0,max_y])
 
 plt.legend()  #add this， the label names will be shown
