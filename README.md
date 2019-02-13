@@ -1,7 +1,14 @@
 
 # Source Code Analysis
 
-see the Directory ： my-Source_Code_Analysis_of_LevelDB. 如果你需要其他部分的剖析请联系我。
+see the Directory ： my-Source_Code_Analysis_of_LevelDB. 如果你需要其他部分的剖析请联系我，请告知自我介绍和用途。
+
+# Compiling Problem
+
+If you use 'make' command, you will see:
+/bin/sh: ./build_detect_platform: Permission denied
+Makefile:21: build_config.mk: No such file or directory
+make: *** No rule to make target `build_config.mk'.  Stop.
 
 # Log Parsing Scripts
 
